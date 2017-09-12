@@ -18,7 +18,6 @@ ckan:
       - DB_PORT_5432_TCP_ADDR=db
       - SOLR_PORT_8983_TCP_ADDR=solr
       - REDIS_PORT_6379_TCP_ADDR=redis
-  command: ["/usr/lib/ckan/default/bin/uwsgi", "--ini-paste", "/etc/ckan/default/ckan.ini", "--chmod-socket=666", "--socket=0.0.0.0:3031", "--master", "--processes=1"]
 
 db:
   container_name: db
@@ -31,13 +30,3 @@ solr:
 redis:
   container_name: redis
   image: redis:latest
-
-nginx:
-  container_name: nginx
-  build: nginx/
-  restart: always
-  ports:
-    - 8080:80
-  links:
-    - ckan
-

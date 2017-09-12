@@ -42,6 +42,8 @@ ADD . $CKAN_HOME/src/ckan/
 RUN ckan-pip install -e $CKAN_HOME/src/ckan/
 RUN ln -s $CKAN_HOME/src/ckan/ckan/config/who.ini $CKAN_CONFIG/who.ini
 
+RUN ckan-pip install uwsgi
+
 # SetUp EntryPoint
 COPY ./contrib/docker/ckan-entrypoint.sh /
 RUN chmod +x /ckan-entrypoint.sh
