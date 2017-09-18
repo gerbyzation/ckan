@@ -1,0 +1,24 @@
+#!/bin/expect -f
+
+# Creates a sysadmin
+# Run as `expect create-sysadmin.expect [username] [email] [password]
+
+set username [lindex $argv 0]
+set email [lindex $argv 1]
+set password [lindex $argv 2]
+
+log_user 0
+
+spawn -noecho /usr/lib/ckan/default/bin/paster sysadmin add $username email=$email password=$password -c /etc/ckan/default/ckan.ini
+
+expect {
+  "User * not found" {
+      send "y\r"
+      expect {\\\{.*\\\}}
+      puts $expect_out(buffer)
+   }
+   "Added * as sysadmin" {
+      # do nothing
+      exit 1
+   }
+}
