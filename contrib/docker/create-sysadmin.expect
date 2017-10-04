@@ -3,6 +3,8 @@
 # Creates a sysadmin
 # Run as `expect create-sysadmin.expect [username] [email] [password]
 
+# TODO: grep/regex output to only return the JSON bit
+
 set username [lindex $argv 0]
 set email [lindex $argv 1]
 set password [lindex $argv 2]
