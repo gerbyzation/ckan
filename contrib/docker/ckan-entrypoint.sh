@@ -86,12 +86,10 @@ fi
 set_environment
 
 TITLE="${SITE_TITLE}"
-echo $CKAN_SOLR_URL
 sed -i "s/ckan.site_title = CKAN/ckan.site_title = $TITLE/" $CONFIG
 sed -i "s#sqlalchemy.url = postgresql://ckan_default:pass@localhost/ckan_default#sqlalchemy.url = $CKAN_SQLALCHEMY_URL#" $CONFIG
 sed -i "s*#ckan.redis.url = redis://localhost:6379/0*ckan.redis.url = $CKAN_REDIS_URL*" $CONFIG
 sed -i "s*#solr_url = http://127.0.0.1:8983/solr*solr_url = $CKAN_SOLR_URL*" $CONFIG
-# sed -i "s/ckan.auth.create_user_via_api = false/ckan.auth.create_user_via_api = true/" $CONFIG
 
 # Initializes the Database
 ckan-paster --plugin=ckan db init -c "${CKAN_CONFIG}/ckan.ini"

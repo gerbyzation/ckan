@@ -1,5 +1,6 @@
 version: '3'
 services:
+
   # docker-compose build && docker-compose up
   # If you experience problems with the CKAN container not being
   # able to connect to the DB, then most likely the DB has not
@@ -7,21 +8,19 @@ services:
   # again to retry
   ckan:
     container_name: ckan
-    # Note, if you are working on CKAN core, change this to
-    # build ../../
     build: ../../
     depends_on:
       - db
       - solr
       - redis
     ports:
-        - 5000:5000
+      - 5000:5000
     environment:
-        - CKAN_SQLALCHEMY_URL=postgres://ckan:ckan@db:5432/ckan
-        - CKAN_SOLR_URL=http://solr:8983/solr
-        - SOLR_PORT_8983_TCP_ADDR=solr
-        - REDIS_PORT_6379_TCP_ADDR=redis
-        - SITE_TITLE=thedataplace
+      - CKAN_SQLALCHEMY_URL=postgres://ckan:ckan@db:5432/ckan
+      - CKAN_SOLR_URL=http://solr:8983/solr
+      - SOLR_PORT_8983_TCP_ADDR=solr
+      - REDIS_PORT_6379_TCP_ADDR=redis
+      - SITE_TITLE=thedataplace
     restart: on-failure
     # volumes:
     #   - .:/usr/lib/ckan/default/src/ckan
