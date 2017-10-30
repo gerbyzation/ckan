@@ -18,6 +18,7 @@ RUN apt-get -q -y update && apt-get -q -y upgrade && DEBIAN_FRONTEND=noninteract
         build-essential \
         libssl-dev \
         libffi-dev \
+        curl \
     expect \
   && apt-get -q clean
 
