@@ -1,47 +1,67 @@
-version: '3'
-services:
+# docker-compose build && docker-compose up -d
+# If "docker-compose logs ckan" shows DB not ready, run "docker-compose restart ckan" a few times.
+version: "3"
 
-  # docker-compose build && docker-compose up
-  # If you experience problems with the CKAN container not being
-  # able to connect to the DB, then most likely the DB has not
-  # started up quickly enough. Just do "docker-compose up ckan"
-  # again to retry
+volumes:
+  ckan_config:
+  ckan_home:
+  ckan_storage:
+  pg_data:
+
+services:
   ckan:
     container_name: ckan
-    build: ../../
+    build:
+      context: ../../
+      args:
+          - CKAN_SITE_URL=${CKAN_SITE_URL}
     links:
       - db
       - solr
       - redis
     ports:
-      - "5000:5000"
+      - "0.0.0.0:${CKAN_PORT}:5000"
     environment:
-      - SITE_TITLE=thedataplace
-      - CKAN_SQLALCHEMY_URL=postgres://ckan:ckan@db:5432/ckan
-      - CKAN_SOLR_URL=http://solr:8983/solr
-      - DB_PORT_5432_TCP_ADDR=db
-      - SOLR_PORT_8983_TCP_ADDR=solr
-      - REDIS_PORT_6379_TCP_ADDR=redis
-    command: ["/usr/lib/ckan/default/bin/uwsgi", "--ini-paste", "/etc/ckan/default/ckan.ini", "--chmod-socket=666", "--socket=0.0.0.0:3031", "--master", "--processes=1"]
+      # Defaults work with linked containers, change to use own Postgres, SolR, Redis or Datapusher
+      - CKAN_SQLALCHEMY_URL=postgresql://ckan:${POSTGRES_PASSWORD}@db/ckan
+      - CKAN_DATASTORE_WRITE_URL=postgresql://ckan:${POSTGRES_PASSWORD}@db/datastore
+      - CKAN_DATASTORE_READ_URL=postgresql://datastore_ro:${DATASTORE_READONLY_PASSWORD}@db/datastore
+      - CKAN_SOLR_URL=http://solr:8983/solr/ckan
+      - CKAN_REDIS_URL=redis://redis:6379/1
+      - CKAN_DATAPUSHER_URL=http://datapusher:8800
+      - CKAN_SITE_URL=${CKAN_SITE_URL}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - DS_RO_PASS=${DATASTORE_READONLY_PASSWORD}
+
+    volumes:
+      - ckan_config:/etc/ckan
+      - ckan_home:/usr/lib/ckan
+      - ckan_storage:/var/lib/ckan
+    restart: on-failure
+
+  datapusher:
+    container_name: datapusher
+    image: clementmouchet/datapusher
+    ports:
+      - "8800:8800"
 
   db:
     container_name: db
-    build: postgresql/
-    
+    build:
+      context: postgresql/
+      args:
+        - DS_RO_PASS=${DATASTORE_READONLY_PASSWORD}
+        - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    environment:
+      - DS_RO_PASS=${DATASTORE_READONLY_PASSWORD}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
   solr:
     container_name: solr
     build: solr/
-      
+
   redis:
     container_name: redis
     image: redis:latest
-
-  nginx:
-    container_name: nginx
-    build: nginx/
-    restart: always
-    ports:
-      - 8080:80
-    links:
-      - ckan
-
