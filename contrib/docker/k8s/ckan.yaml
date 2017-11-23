@@ -35,11 +35,11 @@ spec:
           imagePullPolicy: IfNotPresent
           env:
             - name: CKAN_SQLALCHEMY_URL
-              value: postgresql://ckan:password@localhost:5432/ckan
+              value: postgresql://ckan:password@10.0.2.2:5432/ckan
             - name: CKAN_DATASTORE_WRITE_URL
-              value: postgresql://ckan:password@localhost:5432/datastore
+              value: postgresql://ckan:password@10.0.2.2:5432/datastore
             - name: CKAN_DATASTORE_READ_URL
-              value: postgresql://datastore_ro:password@localhost:5432/datstore
+              value: postgresql://datastore_ro:password@10.0.2.2:5432/datstore
             - name: CKAN_SOLR_URL
               value: http://solr:8983/solr/ckan
             - name: CKAN_REDIS_URL
