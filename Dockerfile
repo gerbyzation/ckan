@@ -43,6 +43,7 @@ RUN mkdir -p $CKAN_VENV $CKAN_CONFIG $CKAN_STORAGE_PATH && \
 
 # Setup CKAN
 ADD . $CKAN_VENV/src/ckan/
+ADD config.ini /etc/ckan/ckan.ini
 RUN ckan-pip install --upgrade -r $CKAN_VENV/src/ckan/requirements.txt && \
     ckan-pip install -e $CKAN_VENV/src/ckan/ && \
     ln -s $CKAN_VENV/src/ckan/ckan/config/who.ini $CKAN_CONFIG/who.ini && \

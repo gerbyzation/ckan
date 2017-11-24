@@ -11,6 +11,6 @@ data:
   CKAN_SOLR_URL: http://solr:8983/solr/ckan
   CKAN_REDIS_URL: redis://redis:6379/1
   CKAN_DATAPUSHER_URL: http://datapusher:8800
-  CKAN_SITE_URL: http://localhost:5000
+  CKAN_SITE_URL: '' 
   POSTGRES_PASSWORD: password
   DS_RO_PASS: password
