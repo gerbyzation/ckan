@@ -35,23 +35,50 @@ spec:
           imagePullPolicy: IfNotPresent
           env:
             - name: CKAN_SQLALCHEMY_URL
-              value: postgresql://ckan:password@10.0.2.2:5432/ckan
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: CKAN_SQLALCHEMY_URL
             - name: CKAN_DATASTORE_WRITE_URL
-              value: postgresql://ckan:password@10.0.2.2:5432/datastore
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: CKAN_DATASTORE_WRITE_URL
             - name: CKAN_DATASTORE_READ_URL
-              value: postgresql://datastore_ro:password@10.0.2.2:5432/datstore
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: CKAN_DATASTORE_READ_URL
             - name: CKAN_SOLR_URL
-              value: http://solr:8983/solr/ckan
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: CKAN_SOLR_URL
             - name: CKAN_REDIS_URL
-              value: redis://redis:6379/1
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: CKAN_REDIS_URL
             - name: CKAN_DATAPUSHER_URL
-              value: http://datapusher:8800
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: CKAN_DATAPUSHER_URL
             - name: CKAN_SITE_URL
-              value: http://localhost:5000
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: CKAN_SITE_URL
             - name: POSTGRES_PASSWORD
-              value: password
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: POSTGRES_PASSWORD
             - name: DS_RO_PASS
-              value: password
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: DS_RO_PASS
           ports:
             - containerPort: 5000
 
@@ -60,7 +87,12 @@ spec:
           imagePullPolicy: IfNotPresent
           env: 
             - name: DS_RO_PASS
-              value: password
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: DS_RO_PASS
             - name: POSTGRES_PASSWORD
-              value: password
-          
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: POSTGRES_PASSWORD 
