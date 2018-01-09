@@ -11,7 +11,7 @@ spec:
     - port: 6379
       targetPort: 6379
   selector:
-    app: redis-thing
+    app: redis
     environment: production
 ---
 apiVersion: extensions/v1beta1
@@ -26,7 +26,7 @@ spec:
   template:
     metadata:
       labels:
-        app: redis-thing
+        app: redis
         environment: production
     spec:
       containers:
