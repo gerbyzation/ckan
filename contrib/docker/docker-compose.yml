@@ -3,8 +3,6 @@
 version: "3"
 
 volumes:
-  ckan_config:
-  ckan_home:
   ckan_storage:
   pg_data:
 
@@ -30,12 +28,11 @@ services:
       - CKAN_REDIS_URL=redis://redis:6379/1
       - CKAN_DATAPUSHER_URL=http://datapusher:8800
       - CKAN_SITE_URL=${CKAN_SITE_URL}
+#       - CKAN__SITE_URL=${CKAN_SITE_URL}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - DS_RO_PASS=${DATASTORE_READONLY_PASSWORD}
-
+      - CKAN__SITE_TITLE=Test rabbit
     volumes:
-      - ckan_config:/etc/ckan
-      - ckan_home:/usr/lib/ckan
       - ckan_storage:/var/lib/ckan
     restart: on-failure
 
