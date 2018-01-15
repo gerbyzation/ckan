@@ -1,5 +1,2 @@
 FROM ckan:2.7.2
 
-# ARG CKAN_SITE_URL
-
-

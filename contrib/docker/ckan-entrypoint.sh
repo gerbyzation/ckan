@@ -61,6 +61,11 @@ if [ -z "$CKAN_DATAPUSHER_URL" ]; then
     abort "ERROR: no CKAN_DATAPUSHER_URL specified in docker-compose.yml"
 fi
 
+# write plugins to config file
+if ! grep -q "^ckan.plugin:.*envvars$" ; then
+    sed -i '/^ckan.plugin/ s/$/ '"$CKAN_PLUGINS"' envvars/' "${CKAN_CONFIG}/ckan.ini"
+fi
+
 set_environment
 ckan-paster --plugin=ckan db init -c "${CKAN_CONFIG}/ckan.ini"
 exec "$@"
