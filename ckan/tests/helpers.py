@@ -168,6 +168,7 @@ def _get_test_app():
     '''
     config['ckan.legacy_templates'] = False
     config['testing'] = True
+    print('config obj', config)
     app = ckan.config.middleware.make_app(config['global_conf'], **config)
     app = CKANTestApp(app)
     return app
