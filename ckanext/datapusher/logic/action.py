@@ -62,6 +62,7 @@ def datapusher_submit(context, data_dict):
 
     site_url = h.url_for('/', qualified=True)
     callback_url = h.url_for('/api/3/action/datapusher_hook', qualified=True)
+    log.error('datapusher callback url {}'.format(callback_url))
 
     user = p.toolkit.get_action('user_show')(context, {'id': context['user']})
 
