@@ -209,6 +209,11 @@ def _get_config(config=None):
         exit(msg)
 
     fileConfig(filename)
+    log = logging.getLogger(__name__)
+    handler = logging.StreamHandler()
+    log.setHandler(handler)
+    log.error('loading config')
+
     return appconfig('config:' + filename)
 
 
