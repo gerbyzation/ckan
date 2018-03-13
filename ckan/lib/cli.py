@@ -211,7 +211,7 @@ def _get_config(config=None):
     fileConfig(filename)
     log = logging.getLogger(__name__)
     handler = logging.StreamHandler()
-    log.setHandler(handler)
+    log.addHandler(handler)
     log.error('loading config')
 
     return appconfig('config:' + filename)
