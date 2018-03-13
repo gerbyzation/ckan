@@ -18,6 +18,11 @@ import ckanext.datapusher.logic.schema as dpschema
 import ckanext.datapusher.interfaces as interfaces
 
 log = logging.getLogger(__name__)
+handler = logging.StreamHandler()
+log.addHandler(hander)
+log.setLevel(logging.DEBUG)
+
+log.error('logger module {}'.format(__name__))
 _get_or_bust = logic.get_or_bust
 _validate = ckan.lib.navl.dictization_functions.validate
 
